@@ -2,12 +2,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from post_in.notes.models import Note
-from post_in.api.serializers import NoteSerializer
+from notes.models import Note
+from api.serializers import NoteSerializer
 
 
 @api_view(['GET', 'POST'])
-def notes_list(request):
+def notes_list(request, format=None):
     """
     List all code snippets, or create a new snippet.
     """
@@ -24,7 +24,7 @@ def notes_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def notes_detail(request, pk):
+def notes_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code snippet.
     """
