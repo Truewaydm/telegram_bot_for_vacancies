@@ -1,5 +1,5 @@
 from rest_framework.serializers import (IntegerField, CharField, Serializer, ModelSerializer)
-from post_in.notes.models import Note
+from notes.models import Note
 
 
 class NoteSerializer(ModelSerializer):
