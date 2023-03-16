@@ -16,7 +16,7 @@ def notes_list(request, format=None):
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = NoteSerializer(request.data)
+        serializer = NoteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
