@@ -28,14 +28,14 @@ class NoteDetailView(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, Ge
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
-    def get(self, request, *args, **kwags):
-        return self.retrieve(request, *args, **kwags)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwags):
-        return self.update(request, *args, **kwags)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwags):
-        return self.destroy(request, *args, **kwags)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 # class NoteListView(APIView):
 #     """
