@@ -6,25 +6,39 @@ from rest_framework import status
 from notes.models import Note
 from api.serializers import NoteSerializer, ThinNoteSerializer
 from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
 
 
-class NoteListView(APIView):
-    """
-    List all snippets, or create a new snippet.
-     """
+class NoteListView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
 
-    def get(self, request, format=None):
-        notes = Note.objects.all()
-        context = {'request': request}
-        serializer = ThinNoteSerializer(notes, many=True, context=context)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        self.serializer_class = ThinNoteSerializer
+        return self.list(request, *args, **kwargs)
 
-    def post(self, request, format=None):
-        serializer = NoteSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+# class NoteListView(APIView):
+#     """
+#     List all snippets, or create a new snippet.
+#      """
+#
+#     def get(self, request, format=None):
+#         notes = Note.objects.all()
+#         context = {'request': request}
+#         serializer = ThinNoteSerializer(notes, many=True, context=context)
+#         return Response(serializer.data)
+#
+#     def post(self, request, format=None):
+#         serializer = NoteSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NoteDetailView(APIView):
