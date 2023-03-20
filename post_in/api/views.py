@@ -10,32 +10,58 @@ from rest_framework.mixins import (
     ListModelMixin, CreateModelMixin, RetrieveModelMixin,
     UpdateModelMixin, DestroyModelMixin)
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import ModelViewSet
 
 
-class NoteListView(ListModelMixin, CreateModelMixin, GenericAPIView):
+class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
-    def get(self, request, *args, **kwargs):
-        self.serializer_class = ThinNoteSerializer
-        return self.list(request, *args, **kwargs)
+    def list(self, request, *args, **kwags):
+        notes = Note.objects.all()
+        context = {'request': request}
+        serializer = ThinNoteSerializer(notes, many=True, context=context)
+        return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+# class NoteListView(ListCreateAPIView):
+#     queryset = Note.objects.all()
+#     serializer_class = NoteSerializer
+#
+#     def list(self, request, *args, **kwags):
+#         notes = Note.objects.all()
+#         context = {'request': request}
+#         serializer = ThinNoteSerializer(notes, many=True, context=context)
+#         return Response(serializer.data)
+#
+#
+# class NoteDetailView(RetrieveUpdateDestroyAPIView):
+#     queryset = Note.objects.all()
+#     serializer_class = NoteSerializer
 
-
-class NoteDetailView(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericAPIView):
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+# class NoteListView(ListModelMixin, CreateModelMixin, GenericAPIView):
+#     queryset = Note.objects.all()
+#     serializer_class = NoteSerializer
+#
+#     def get(self, request, *args, **kwargs):
+#         self.serializer_class = ThinNoteSerializer
+#         return self.list(request, *args, **kwargs)
+#
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+#
+#
+# class NoteDetailView(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericAPIView):
+#     queryset = Note.objects.all()
+#     serializer_class = NoteSerializer
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+#
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+#
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
 
 # class NoteListView(APIView):
 #     """
