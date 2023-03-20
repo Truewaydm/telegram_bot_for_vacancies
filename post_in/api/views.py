@@ -16,6 +16,7 @@ from rest_framework.viewsets import ModelViewSet
 class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+    http_method_names = ['get', 'post']
 
     def list(self, request, *args, **kwags):
         notes = Note.objects.all()
