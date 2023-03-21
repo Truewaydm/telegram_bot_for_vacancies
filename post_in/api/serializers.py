@@ -8,8 +8,8 @@ class NoteSerializer(ModelSerializer):
     author = SerializerMethodField(read_only=True)
 
     def get_author(self, obj):
-        # return obj.author.email
-        return str(obj.author.id)
+        return obj.author.email
+        # return str(obj.author.id)
 
     class Meta:
         model = Note
