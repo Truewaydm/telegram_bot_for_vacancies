@@ -19,7 +19,8 @@ class NoteViewSet(ModelViewSet):
     http_method_names = ['get', 'post']
 
     def list(self, request, *args, **kwags):
-        notes = Note.objects.all()
+        # notes = Note.objects.all()
+        notes = Note.objects.filter(author=self.request.user.id)
         context = {'request': request}
         serializer = ThinNoteSerializer(notes, many=True, context=context)
         return Response(serializer.data)
