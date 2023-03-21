@@ -12,13 +12,14 @@ from rest_framework.mixins import (
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from .permissions import IsAuthorOrReadOnly
 
 
 class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     # http_method_names = ['get', 'post']
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly,)
 
     def list(self, request, *args, **kwags):
         notes = Note.objects.all()
