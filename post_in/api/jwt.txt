@@ -1,0 +1,6 @@
+TOKEN:
+https://jwt.io/
+https://pypi.org/project/djangorestframework-simplejwt/
+https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html
+access - багаторазовий токен, але з коротким життевим циклом
+refresh - одноразовий, але з більшим життевим циклом
