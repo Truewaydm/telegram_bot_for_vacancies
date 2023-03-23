@@ -1,0 +1,119 @@
+[
+{
+  "model": "scraping.city",
+  "pk": 1,
+  "fields": {
+    "name": "Kyiv",
+    "slug": "kyiv"
+  }
+},
+{
+  "model": "scraping.city",
+  "pk": 2,
+  "fields": {
+    "name": "Odessa",
+    "slug": "odessa"
+  }
+},
+{
+  "model": "scraping.language",
+  "pk": 1,
+  "fields": {
+    "name": "Python",
+    "slug": "python"
+  }
+},
+{
+  "model": "scraping.language",
+  "pk": 3,
+  "fields": {
+    "name": "Java",
+    "slug": "java"
+  }
+},
+{
+  "model": "scraping.vacancy",
+  "pk": 134,
+  "fields": {
+    "url": "https://www.work.ua/jobs/5050307/",
+    "title": "\nSoftware Engineer (PHP, NodeJS, Python, Scraping Project)\n",
+    "company": "Abz.agency®",
+    "description": "\n            Повна зайнятість. Досвід роботи від 5 років.\n                            IMPORTANT! Relevant for 20 of February 2023. 1 position vacant. For a Long Term Project we are looking…⁠\n",
+    "city": 1,
+    "language": 1,
+    "timestamp": "2023-02-20"
+  }
+},
+{
+  "model": "scraping.vacancy",
+  "pk": 143,
+  "fields": {
+    "url": "https://jobs.dou.ua/companies/evo/vacancies/229710/",
+    "title": "\nMiddle Python Software Engineer (Prom.ua) в  EVO\nКиїв, віддалено\n",
+    "company": " EVO",
+    "description": "\n\t\t\t\t\tProm.ua — найбільший маркетплейс України, де продаються понад 100 млн товарів від десятків тисяч підприємців з усієї країни.\n\nНа Prom.ua:\n\n\n\nкожен покупець може знайти все, що потрібно, за найкращою ціною: від зубної щітки до культиватора для саду та городу.\n\t\t\t\t",
+    "city": 1,
+    "language": 1,
+    "timestamp": "2023-02-20"
+  }
+},
+{
+  "model": "scraping.vacancy",
+  "pk": 186,
+  "fields": {
+    "url": "https://rabota.ua/company794/vacancy9410612",
+    "title": " Senior/Lead Software Engineer (IRC162159) ",
+    "company": "GlobalLogic Ukraine",
+    "description": " GlobalLogic Ukraine ",
+    "city": 1,
+    "language": 1,
+    "timestamp": "2023-02-20"
+  }
+},
+{
+  "model": "scraping.errors",
+  "pk": 164,
+  "fields": {
+    "timestamp": "2023-02-20",
+    "data_errors": {
+      "user_data": [
+        {
+          "city": "Lviv",
+          "email": "dim8035@gmail.com",
+          "language": "Rust"
+        },
+        {
+          "city": "Kiev",
+          "email": "dim8035@gmail.com",
+          "language": "C++"
+        },
+        {
+          "city": "Kiev",
+          "email": "dim8035@gmail.com",
+          "language": "Scala"
+        }
+      ],
+      "errors": [
+        {
+          "url": "https://www.work.ua/jobs-kyiv-python/",
+          "title": "div does not exists"
+        }
+      ]
+    }
+  }
+},
+{
+  "model": "scraping.url",
+  "pk": 1,
+  "fields": {
+    "city": 1,
+    "language": 1,
+    "url_data": {
+      "work_ua": "https://www.work.ua/jobs-kyiv-python/",
+      "rabota_ua": "https://rabota.ua/ua/zapros/python/%D0%BA%D0%B8%D0%B5%D0%B2",
+      "dou_ua": "https://jobs.dou.ua/vacancies/?category=Python",
+      "djinni_co": "https://djinni.co/jobs/?primary_keyword=Python"
+    }
+  }
+}
+]

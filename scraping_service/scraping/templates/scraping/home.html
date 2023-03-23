@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col"><h2 class=" text-center my-3">Service for collecting and mailing vacancies</h2>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-8 mx-auto my-2">
+        <p class="">
+            Every day we analyze sites with vacancies, according to the settings of our subscribers.
+             All eligible vacancies that have been published on these sites in the last 24 hours,
+             are recorded in the database and sent to subscribers, according to their preferences.
+             You can view current vacancies by simply selecting the required city or specialty.
+             Or, after a simple <a href="{% url 'accounts:register' %}"> registration</a>,
+             receive every day a letter with a list of new vacancies for the last 24 hours, according to your needs.
+        </p>
+        <form method="GET" action="{% url 'list' %}">
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Find</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
