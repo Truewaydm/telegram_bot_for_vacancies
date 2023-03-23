@@ -97,10 +97,10 @@ if errors:
     query_set_errors = Errors.objects.filter(timestamp=datetime.date.today())
     if query_set_errors.exists():
         error = query_set_errors.first()
-        error.data.update({'errors': errors})
+        error.data_errors.update({'errors': errors})
         error.save()
     else:
-        error = Errors(data=f'errors:{errors}').save()
+        error = Errors(data_errors=f'errors:{errors}').save()
 
 work_result = codecs.open('parser_vacancy.json', 'w', 'utf-8')
 work_result.write(str(jobs))
