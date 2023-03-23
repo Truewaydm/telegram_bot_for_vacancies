@@ -10,7 +10,7 @@ os.environ["DJANGO_SETTINGS_MODULE"] = "scraping_service.settings"
 
 django.setup()
 from scraping.models import Vacancy, Errors, Url
-from scraping_service.scraping_service import EMAIL_HOST_USER
+from scraping_service.scraping_service.settings import EMAIL_HOST_USER
 
 ADMIN_USER = EMAIL_HOST_USER
 today = datetime.date.today()
