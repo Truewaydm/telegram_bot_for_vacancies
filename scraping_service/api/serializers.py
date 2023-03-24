@@ -7,10 +7,13 @@ class CitySerializer(ModelSerializer):
         model = City
         fields = ('name', 'slug')
 
+
 class LanguageSerializer(ModelSerializer):
     class Meta:
         model = Language
         fields = ('name', 'slug')
+
+
 class VacancySerializer(ModelSerializer):
     class Meta:
         model = Vacancy
