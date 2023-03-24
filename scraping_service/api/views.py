@@ -9,20 +9,20 @@ from .serializers import *
 period = datetime.date.today() - datetime.timedelta(1)
 
 
-class DateFilterBackend(filters.BaseFilterBackend):
-    """
-    Filter that only allows users to see their own objects.
-    https://www.django-rest-framework.org/api-guide/filtering/
-    """
-
-    def filter_queryset(self, request, queryset, view):
-        # return queryset.filter(timestamp__gte=period)
-        city_slug = request.query_params.get('city', None)
-        language_slug = request.query_params.get('language', None)
-        return queryset.filter(
-            city__slug=city_slug,
-            language__slug=language_slug,
-            timestamp__gte=period)
+# class DateFilterBackend(filters.BaseFilterBackend):
+#     """
+#     Filter that only allows users to see their own objects.
+#     https://www.django-rest-framework.org/api-guide/filtering/
+#     """
+#
+#     def filter_queryset(self, request, queryset, view):
+#         # return queryset.filter(timestamp__gte=period)
+#         city_slug = request.query_params.get('city', None)
+#         language_slug = request.query_params.get('language', None)
+#         return queryset.filter(
+#             city__slug=city_slug,
+#             language__slug=language_slug,
+#             timestamp__gte=period)
 
 
 class CityViewSet(ModelViewSet):
@@ -44,23 +44,23 @@ class VacancyViewSet(ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    filter_backends = [DjangoFilterBackend, DateFilterBackend]
-    filterset_fields = ['city__slug', 'language__slug']
+    # filter_backends = [DjangoFilterBackend, DateFilterBackend]
+    # filterset_fields = ['city__slug', 'language__slug']
 
-    # def get_queryset(self):
-    #     city_slug = self.request.query_params.get('city', None)
-    #     language_slug = self.request.query_params.get('language', None)
-    #     qs = None
-    #     if city_slug and language_slug:
-    #         qs = Vacancy.objects.filter(
-    #             city__slug=city_slug,
-    #             language__slug=language_slug, timestamp__gte=period)
-    #         if not qs.exists():
-    #             qs = Vacancy.objects.filter(
-    #                 city__slug=language_slug,
-    #                 language__slug=city_slug, timestamp__gte=period)
-    #     self.queryset = qs
-    #     return self.queryset
+    def get_queryset(self):
+        city_slug = self.request.query_params.get('city', None)
+        language_slug = self.request.query_params.get('language', None)
+        qs = None
+        if city_slug and language_slug:
+            qs = Vacancy.objects.filter(
+                city__slug=city_slug,
+                language__slug=language_slug, timestamp__gte=period)
+            if not qs.exists():
+                qs = Vacancy.objects.filter(
+                    city__slug=language_slug,
+                    language__slug=city_slug, timestamp__gte=period)
+        self.queryset = qs
+        return self.queryset
 
     # def get_queryset(self):
     #     city_slug = self.request.query_params.get('city', None)
