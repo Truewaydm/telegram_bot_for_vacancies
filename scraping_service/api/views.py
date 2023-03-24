@@ -29,9 +29,24 @@ class VacancyViewSet(ModelViewSet):
         language_slug = self.request.query_params.get('language', None)
         qs = None
         if city_slug and language_slug:
-            city = City.objects.filter(slug=city_slug).first()
-            language = Language.objects.filter(slug=language_slug).first()
-            if city and language:
-                qs = Vacancy.objects.filter(city=city, language=language, timestamp__gte=period)
+            qs = Vacancy.objects.filter(
+                city__slug=city_slug,
+                language__slug=language_slug, timestamp__gte=period)
+            if not qs.exists():
+                qs = Vacancy.objects.filter(
+                    city__slug=language_slug,
+                    language__slug=city_slug, timestamp__gte=period)
         self.queryset = qs
         return self.queryset
+
+    # def get_queryset(self):
+    #     city_slug = self.request.query_params.get('city', None)
+    #     language_slug = self.request.query_params.get('language', None)
+    #     qs = None
+    #     if city_slug and language_slug:
+    #         city = City.objects.filter(slug=city_slug).first()
+    #         language = Language.objects.filter(slug=language_slug).first()
+    #         if city and language:
+    #             qs = Vacancy.objects.filter(city=city, language=language, timestamp__gte=period)
+    #     self.queryset = qs
+    #     return self.queryset
