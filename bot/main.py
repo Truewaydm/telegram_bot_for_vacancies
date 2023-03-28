@@ -1,4 +1,5 @@
 import os
+import re
 
 import requests
 from flask import Flask
@@ -28,6 +29,8 @@ def parse_text(text_msg):
     @kiyv
     @python
     '''
+    addresses = {'city': '/cities', 'language': '/language'}
+    command_pattern = r'/\w+'
     message = 'Bad Request'
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
@@ -37,7 +40,11 @@ To learn about available languages - send /language
 To make a request for saved vacancies, send a space-separated message - @city @language.
 For example like this - @kyiv @python
             '''
-        return message
+            return message
+        else:
+            command_pattern = re.search(command_pattern, text_msg).group().replace('/', '')
+            command_pattern = addresses.get(command_pattern, None)
+            return [command_pattern] if command_pattern else None
     else:
         return message
 
@@ -62,7 +69,10 @@ class BotApi(MethodView):
         chat_id = response['message']['chat']['id']
         temp = parse_text(text_msg)
         if temp:
-            send_message(chat_id, temp)
+            if len(text_msg) > 11:
+                send_message(chat_id, temp)
+            elif len(text_msg) == 1:
+
         print(response)
         return '<h1> Hi Telegram_Class!!! </h1>'
 
