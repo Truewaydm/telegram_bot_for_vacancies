@@ -15,8 +15,8 @@ TELEGRAM_URL = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
 
 def send_message(chat_id, message):
     session = requests.Session()
-    r = session.get(TELEGRAM_URL, params=dict(chat_id=chat_id, text=message, parse_mode='Markdown'))
-    return r.json()
+    response = session.get(TELEGRAM_URL, params=dict(chat_id=chat_id, text=message, parse_mode='Markdown'))
+    return response.json()
 
 
 def parse_text(text_msg):
@@ -28,16 +28,18 @@ def parse_text(text_msg):
     @kiyv
     @python
     '''
-    global message
+    message = 'Bad Request'
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
-            message = '''To see which cities are available, send `/city` or `/cities` in a message.
-             To learn about available languages - send `/language`
-             To make a request for saved vacancies, send a space-separated message - @city @language.
-             For example like this - `@kyiv @python` '''
+            message = '''
+            To see which cities are available, send /city or /cities in a message.
+To learn about available languages - send /language
+To make a request for saved vacancies, send a space-separated message - @city @language.
+For example like this - @kyiv @python
+            '''
         return message
     else:
-        return None
+        return message
 
 
 @app.route('/', methods=["POST", "GET"])
