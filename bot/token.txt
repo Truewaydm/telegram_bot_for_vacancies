@@ -1,0 +1,3 @@
+https://core.telegram.org/bots/api#setwebhook
+https://api.telegram.org/bot{token}/setWebhook?url={ngrok_url}
+https://api.telegram.org/bot{token}/deleteWebhook?url={ngrok_url}
