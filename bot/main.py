@@ -93,11 +93,13 @@ class BotApi(MethodView):
                     message = ''
                     for dictionary in response:
                         message += '#' + dictionary['slug'] + '\n'
-                        if temp[0] == '/language':
-                            msg = 'Available languages: \n'
-                        else:
-                            msg = 'Available cities: \n'
-                send_message(chat_id, msg + message)
+                    if temp[0] == '/language':
+                        msg = 'Available languages: \n'
+                    else:
+                        msg = 'Available cities: \n'
+                        send_message(chat_id, msg + message)
+                else:
+                    send_message(chat_id, error_msg)
             elif len(temp) == 2:
                 # Values in list put in command - {}
                 command = '/vacancy/?city={}&language={}'.format(*temp)
