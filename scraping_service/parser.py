@@ -119,6 +119,21 @@ def dou_ua(url, city=None, language=None):
                                      'company': company,
                                      'city_id': city,
                                      'language_id': language})
+                    elif '__hot' in li['class']:
+                        title = li.find('div', attrs={'class': 'title'})
+                        href = title.a['href']
+                        content = li.find('div', attrs={'class': 'sh-info'})
+                        description = content.text
+                        company = 'No name'
+                        a = title.find('a', attrs={'class': 'company'})
+                        if a:
+                            company = a.text
+                        jobs.append({'title': title.text,
+                                     'url': href,
+                                     'description': description,
+                                     'company': company,
+                                     'city_id': city,
+                                     'language_id': language})
             else:
                 errors.append({'url': url, 'title': 'li does not exists'})
         else:
@@ -130,6 +145,7 @@ def djinni_co(url, city=None, language=None):
     jobs: list = []
     errors: list = []
     domain: str = 'https://djinni.co'
+    # url: str = 'https://djinni.co/jobs/?primary_keyword=Python'
     if url:
         dou_ua_request = requests.get(url, headers=headers[randint(0, 2)])
         if dou_ua_request.status_code == 200:
@@ -161,8 +177,8 @@ def djinni_co(url, city=None, language=None):
 
 
 if __name__ == '__main__':
-    url = 'https://rabota.ua/ua/zapros/python/%D0%BA%D0%B8%D0%B5%D0%B2'
-    jobs, errors = rabota_ua(url)
+    url = 'https://djinni.co/jobs/?primary_keyword=Python'
+    jobs, errors = djinni_co(url)
     work_result = codecs.open('parser_vacancy.json', 'w', 'utf-8')
     work_result.write(str(jobs))
     work_result.close()
