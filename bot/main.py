@@ -81,6 +81,9 @@ class BotApi(MethodView):
         text_msg = response['message']['text']
         chat_id = response['message']['chat']['id']
         temp = parse_text(text_msg)
+        print(temp)
+        text = 'Bad Request'
+        error_msg = 'Nothing found for your request'
         if temp:
             if len(temp) > 10:
                 send_message(chat_id, temp)
@@ -99,6 +102,37 @@ class BotApi(MethodView):
                 # Values in list put in command - {}
                 command = '/vacancy/?city={}&language={}'.format(*temp)
                 response = get_data_from_api(command)
+                if response:
+                    pices = []
+                    size = len(response)
+                    extra = len(response) % 10
+                    if size < 11:
+                        pices.append(response)
+                    else:
+                        for i in range(size // 10):
+                            y = i * 10
+                            pices.append(response[y:y + 10])
+                        if extra:
+                            pices.append(response[y + 10:])
+                    # Send a header first
+                    text_msg = 'Search results according to your request:\n'
+                    text_msg += '- ' * 10 + '\n'
+                    send_message(chat_id, text_msg)
+
+                    for part in pices:
+                        # Then for each part, I form a new answer
+                        # and add it to the same chat
+                        message = ''
+                        for value in part:
+                            message += value['title'].replace('\t', '').replace('\n', '') + '\n'
+                            url = value['url'].split('?')
+                            message += url[0] + '\n'
+                            message += '-' * 5 + '\n\n'
+                        send_message(chat_id, message)
+                else:
+                    send_message(chat_id, error_msg)
+        else:
+            send_message(chat_id, text)
         print(response)
         return '<h1> Hi Telegram_Class!!! </h1>'
 
