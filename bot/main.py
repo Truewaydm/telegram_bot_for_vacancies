@@ -11,7 +11,15 @@ load_dotenv()
 
 app = Flask(__name__)
 TOKEN = os.environ.get('TOKEN')
+API_URL = os.environ.get('API_URL')
 TELEGRAM_URL = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
+
+
+def get_data_from_api(command):
+    url = API_URL + command
+    session = requests.Session()
+    response = session.get(url).json()
+    return response
 
 
 def send_message(chat_id, message):
@@ -42,9 +50,9 @@ For example like this - @kyiv @python
             '''
             return message
         else:
-            command_pattern = re.search(command_pattern, text_msg).group().replace('/', '')
-            command_pattern = addresses.get(command_pattern, None)
-            return [command_pattern] if command_pattern else None
+            command = re.search(command_pattern, text_msg).group().replace('/', '')
+            command = addresses.get(command, None)
+            return [command] if command else message
     else:
         return message
 
@@ -69,10 +77,19 @@ class BotApi(MethodView):
         chat_id = response['message']['chat']['id']
         temp = parse_text(text_msg)
         if temp:
-            if len(text_msg) > 11:
+            if len(temp) > 10:
                 send_message(chat_id, temp)
-            elif len(text_msg) == 1:
-
+            elif len(temp) == 1:
+                response = get_data_from_api(temp[0])
+                if response:
+                    message = ''
+                    for dictionary in response:
+                        message += '#' + dictionary['slug'] + '\n'
+                        if temp[0] == '/language':
+                            msg = 'Available languages: \n'
+                        else:
+                            msg = 'Available cities: \n'
+                send_message(chat_id, msg + message)
         print(response)
         return '<h1> Hi Telegram_Class!!! </h1>'
 
