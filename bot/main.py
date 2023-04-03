@@ -39,6 +39,7 @@ def parse_text(text_msg):
     '''
     addresses = {'city': '/cities', 'language': '/language'}
     command_pattern = r'/\w+'
+    dog_pattern = r'@\w+'
     message = 'Bad Request'
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
@@ -53,6 +54,10 @@ For example like this - @kyiv @python
             command = re.search(command_pattern, text_msg).group().replace('/', '')
             command = addresses.get(command, None)
             return [command] if command else message
+    elif '@' in text_msg:
+        result = re.findall(dog_pattern, text_msg)
+        commands = [s.replace('@', '') for s in result]
+        return commands if len(commands) == 2 else message
     else:
         return message
 
@@ -90,6 +95,10 @@ class BotApi(MethodView):
                         else:
                             msg = 'Available cities: \n'
                 send_message(chat_id, msg + message)
+            elif len(temp) == 2:
+                # Values in list put in command - {}
+                command = '/vacancy/?city={}&language={}'.format(*temp)
+                response = get_data_from_api(command)
         print(response)
         return '<h1> Hi Telegram_Class!!! </h1>'
 
